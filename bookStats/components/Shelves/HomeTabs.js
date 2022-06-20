@@ -10,16 +10,39 @@ import {
   TouchableHighlight,
   Image,
 } from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
-import ShelfOverview from './ShelfOverview.js';
+import Home from './Home.js';
+import Stats from '../Stats/Stats.js';
 
-const Home = ({navigation}) => {
+const Tab = createMaterialTopTabNavigator();
+
+const HomeTabs = () => {
   return (
-    <View style={styles.base}>
-      <ShelfOverview shelfType={'Completed Reads'} navigation={navigation} />
-      <ShelfOverview shelfType={'Started'} navigation={navigation} />
-      <ShelfOverview shelfType={'Want to Read'} navigation={navigation} />
-    </View>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarIndicatorStyle: {
+          backgroundColor: '#697686',
+          height: '100%',
+          borderRadius: 10,
+        },
+        tabBarIndicatorContainerStyle: {
+          backgroundColor: '#1b1c20',
+        },
+        swipeEnabled: false,
+        tabBarActiveTintColor: '#fff',
+        tabBarLabelStyle: {
+          fontSize: 20,
+          fontWeight: 'bold',
+        },
+        tabBarPressOpacity: 0.5,
+      }}
+      style={styles.base}>
+      <Tab.Screen name="Shelves" component={Home} />
+      <Tab.Screen name="Stats" component={Stats} />
+    </Tab.Navigator>
   );
 };
 
@@ -76,4 +99,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default HomeTabs;

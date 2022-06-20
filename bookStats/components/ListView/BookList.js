@@ -11,7 +11,7 @@ import {
   Image,
 } from 'react-native';
 
-const ShelfList = ({shelfType}) => {
+const BookList = ({shelfType}) => {
   return (
     <View style={styles.base}>
       <Text style={styles.baseText}>LIST GOES HERE</Text>
@@ -32,4 +32,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ShelfList;
+export default BookList;

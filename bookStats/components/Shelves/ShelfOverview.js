@@ -11,9 +11,11 @@ import {
   Image,
 } from 'react-native';
 
-const ShelfOverview = ({shelfType}) => {
+const ShelfOverview = ({navigation, shelfType}) => {
   return (
-    <TouchableHighlight style={styles.shelf}>
+    <TouchableHighlight
+      style={styles.shelf}
+      onPress={() => navigation.navigate('Shelf')}>
       <View>
         <Text style={styles.baseText}>{shelfType}</Text>
       </View>
