@@ -9,6 +9,7 @@ import {faSquarePlus} from '@fortawesome/free-regular-svg-icons/faSquarePlus';
 
 import SQLite from 'react-native-sqlite-storage';
 
+import {SearchProvider} from './components/provider/SearchProvider.js';
 import HomeTabs from './components/Shelves/HomeTabs.js';
 import BookList from './components/ListView/BookList.js';
 import Search from './components/Add/Search.js';
@@ -27,7 +28,8 @@ const db = SQLite.openDatabase(
 );
 
 const App = () => {
-  // const navigation = useNavigation();
+  const [results, setResults] = useState([]);
+
   useEffect(() => {
     createTable();
     getData();
@@ -75,24 +77,18 @@ const App = () => {
             />
             <Stack.Screen name="Shelf" component={BookList} />
           </Stack.Group>
-          <Stack.Group screenOptions={{presentation: 'modal'}}>
-            <Stack.Screen name="Add Book" component={Search} />
-          </Stack.Group>
+          <SearchProvider>
+            <Stack.Group screenOptions={{presentation: 'modal'}}>
+              <Stack.Screen
+                name="Add Book"
+                component={Search}
+                dumb={results}
+                setResults={setResults}
+              />
+            </Stack.Group>
+          </SearchProvider>
         </Stack.Navigator>
       </NavigationContainer>
-
-      {/* <View style={styles.add}>
-        <TouchableHighlight
-          activeOpacity={0.6}
-          underlaycolor="#fff"
-          onPress={() => navigation.navigate('AddBook')}>
-          <FontAwesomeIcon
-            icon={faSquarePlus}
-            style={styles.addIcon}
-            size={40}
-          />
-        </TouchableHighlight>
-      </View> */}
     </SafeAreaView>
   );
 };

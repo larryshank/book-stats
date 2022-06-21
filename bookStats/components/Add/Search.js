@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState} from 'react';
+import {useState, useContext} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -15,11 +15,13 @@ import {
   Button,
 } from 'react-native';
 
+import {SearchContext} from '../provider/SearchProvider.js';
 import axios from 'axios';
 
-const Search = ({navigation}) => {
+const Search = ({navigation, dumb, setResults}) => {
   const [inputText, onChangeText] = useState(null);
-  const [results, setResults] = useState([]);
+  const search = useContext(SearchContext);
+
 
   const performSearch = () => {
     let options = {
@@ -38,7 +40,7 @@ const Search = ({navigation}) => {
   };
 
   const searchResults = () => {
-    return results.map(result => {
+    return dumb.map(result => {
       return (
         <View style={styles.resultRow}>
           <View style={styles.imgCont}>
@@ -73,7 +75,9 @@ const Search = ({navigation}) => {
         onSubmitEditing={performSearch}
       />
       <Button title="Search!" style={styles.button} onPress={performSearch} />
-      <ScrollView>{searchResults()}</ScrollView>
+      <SafeAreaView style={{flex: 1}}>
+        <ScrollView style={styles.resultView}>{searchResults()}</ScrollView>
+      </SafeAreaView>
     </View>
   );
 };
@@ -100,12 +104,15 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: 'white',
   },
-  resultRow: {
+  resultView: {
+    // height: 300,
     // flex: 1,
+  },
+  resultRow: {
     borderWidth: 1,
     borderColor: 'green',
     flexDirection: 'row',
-    height: '40%',
+    height: 150,
   },
   imgCont: {
     borderWidth: 1,
