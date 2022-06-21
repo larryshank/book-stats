@@ -25,7 +25,7 @@ const ShelfOverview = ({navigation, shelfType}) => {
 
 const styles = StyleSheet.create({
   shelf: {
-    flex: 5,
+    flex: 8,
     backgroundColor: '#2c3440',
     borderBottomColor: 'grey',
     borderBottomWidth: StyleSheet.hairlineWidth,
