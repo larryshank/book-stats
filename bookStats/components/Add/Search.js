@@ -3,25 +3,21 @@ import {useState, useContext} from 'react';
 import {
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   View,
   TextInput,
-  Alert,
-  TouchableOpacity,
-  TouchableHighlight,
   Image,
   Button,
+  TouchableHighlight,
 } from 'react-native';
-
-import {SearchContext} from '../provider/SearchProvider.js';
 import axios from 'axios';
 
-const Search = ({navigation, dumb, setResults}) => {
+import {SearchContext} from '../provider/SearchProvider.js';
+
+const Search = ({navigation}) => {
   const [inputText, onChangeText] = useState(null);
   const search = useContext(SearchContext);
-
 
   const performSearch = () => {
     let options = {
@@ -35,31 +31,42 @@ const Search = ({navigation, dumb, setResults}) => {
       },
     };
     return axios(options)
-      .then(searchResults => setResults(searchResults.data.items))
+      .then(searchResults => search.setSearchResults(searchResults.data.items))
       .catch(error => console.log(error));
   };
 
+  const selectAndNav = (selection, screen) => {
+    search.setSelected(selection);
+    navigation.navigate(screen);
+  };
+
   const searchResults = () => {
-    return dumb.map(result => {
+    return search.searchResults.map(result => {
       return (
-        <View style={styles.resultRow}>
-          <View style={styles.imgCont}>
-            {result.volumeInfo.imageLinks && (
-              <Image
-                style={{width: '60%', height: '80%'}}
-                source={{
-                  // eslint-disable-next-line prettier/prettier
-                  uri: `https${result.volumeInfo.imageLinks.smallThumbnail.slice(4)}`,
-                }}
-                resizeMode={'cover'}
-              />
-            )}
+        <TouchableHighlight
+          style={styles.clickResult}
+          onPress={() => selectAndNav(result, 'Book')}>
+          <View style={styles.resultRow}>
+            <View style={styles.imgCont}>
+              {result.volumeInfo.imageLinks && (
+                <Image
+                  style={styles.imgStyle}
+                  source={{
+                    // eslint-disable-next-line prettier/prettier
+                    uri: `https${result.volumeInfo.imageLinks.smallThumbnail.slice(4)}`,
+                  }}
+                  resizeMode={'cover'}
+                />
+              )}
+            </View>
+            <View style={styles.description}>
+              <Text style={styles.baseText}>{result.volumeInfo.title}</Text>
+              <Text style={styles.baseText}>
+                {result.volumeInfo.authors[0]}
+              </Text>
+            </View>
           </View>
-          <View style={styles.description}>
-            <Text style={{color: 'white'}}>{result.volumeInfo.title}</Text>
-            <Text style={{color: 'white'}}>{result.volumeInfo.authors[0]}</Text>
-          </View>
-        </View>
+        </TouchableHighlight>
       );
     });
   };
@@ -75,7 +82,7 @@ const Search = ({navigation, dumb, setResults}) => {
         onSubmitEditing={performSearch}
       />
       <Button title="Search!" style={styles.button} onPress={performSearch} />
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={styles.base}>
         <ScrollView style={styles.resultView}>{searchResults()}</ScrollView>
       </SafeAreaView>
     </View>
@@ -90,7 +97,7 @@ const styles = StyleSheet.create({
   },
   baseText: {
     color: '#fff',
-    fontSize: 30,
+    fontSize: 20,
   },
   button: {
     height: 40,
@@ -104,9 +111,9 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: 'white',
   },
-  resultView: {
-    // height: 300,
-    // flex: 1,
+  clickResult: {
+    borderBottomColor: 'grey',
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   resultRow: {
     borderWidth: 1,
@@ -120,6 +127,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  imgStyle: {
+    width: '60%',
+    height: '80%',
   },
   description: {
     flex: 2,

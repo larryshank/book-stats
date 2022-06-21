@@ -1,35 +1,32 @@
 import React from 'react';
-import {useState, useEffect} from 'react';
-import {SafeAreaView, View, TouchableHighlight, StyleSheet} from 'react-native';
+import {useEffect} from 'react';
+import {SafeAreaView, StyleSheet, Button} from 'react-native';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faSquarePlus} from '@fortawesome/free-regular-svg-icons/faSquarePlus';
-
 import SQLite from 'react-native-sqlite-storage';
+import db from './database/db.js';
 
-import {SearchProvider} from './components/provider/SearchProvider.js';
+import {SearchProvider} from './components/provider/SearchProvider';
 import HomeTabs from './components/Shelves/HomeTabs.js';
 import BookList from './components/ListView/BookList.js';
 import Search from './components/Add/Search.js';
+import Description from './components/Add/Description.js';
 
 const Stack = createNativeStackNavigator();
 
-const db = SQLite.openDatabase(
-  {
-    name: 'ubooks',
-    location: 'default',
-  },
-  () => {},
-  error => {
-    console.log(error);
-  },
-);
+// const db = SQLite.openDatabase(
+//   {
+//     name: 'ubooks',
+//     location: 'default',
+//   },
+//   () => {},
+//   error => {
+//     console.log(error);
+//   },
+// );
 
 const App = () => {
-  const [results, setResults] = useState([]);
-
   useEffect(() => {
     createTable();
     getData();
@@ -66,30 +63,27 @@ const App = () => {
   };
 
   return (
-    <SafeAreaView style={styles.base}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Group>
-            <Stack.Screen
-              name="Shelves"
-              component={HomeTabs}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen name="Shelf" component={BookList} />
-          </Stack.Group>
-          <SearchProvider>
-            <Stack.Group screenOptions={{presentation: 'modal'}}>
+    <SearchProvider>
+      <SafeAreaView style={styles.base}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Group>
               <Stack.Screen
-                name="Add Book"
-                component={Search}
-                dumb={results}
-                setResults={setResults}
+                name="Shelves"
+                component={HomeTabs}
+                options={{headerShown: false}}
               />
+              <Stack.Screen name="Shelf" component={BookList} />
             </Stack.Group>
-          </SearchProvider>
-        </Stack.Navigator>
-      </NavigationContainer>
-    </SafeAreaView>
+
+            <Stack.Group screenOptions={{presentation: 'modal'}}>
+              <Stack.Screen name="Add Book" component={Search} />
+              <Stack.Screen name="Book" component={Description} />
+            </Stack.Group>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
+    </SearchProvider>
   );
 };
 
@@ -103,7 +97,6 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   add: {
-    // flex: 1,
     backgroundColor: '#2c3440',
     alignItems: 'center',
     justifyContent: 'center',

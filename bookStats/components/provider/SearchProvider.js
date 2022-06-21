@@ -19,4 +19,4 @@ const SearchProvider = props => {
   );
 };
 
-export default {SearchProvider, SearchContext};
+export {SearchProvider, SearchContext};

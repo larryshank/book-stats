@@ -1,17 +1,7 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TouchableHighlight,
-  Image,
-} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {StyleSheet, View, TouchableHighlight} from 'react-native';
+// import {NavigationContainer} from '@react-navigation/native';
+// import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -47,6 +37,7 @@ const HomeTabs = ({navigation}) => {
         <Tab.Screen name="Shelves" component={Home} />
         <Tab.Screen name="Stats" component={Stats} />
       </Tab.Navigator>
+
       <View style={styles.add}>
         <TouchableHighlight
           activeOpacity={0.6}
@@ -84,7 +75,6 @@ const styles = StyleSheet.create({
   nav: {
     flex: 1,
     flexDirection: 'row',
-    // backgroundColor: 'blue',
     justifyContent: 'space-around',
   },
   navButton: {
