@@ -43,7 +43,7 @@ const BaseApp = () => {
             }
             console.log('books', myBooks.userBooks);
           },
-        ).catch(error => console.log('error GD', error));
+        );
       });
     };
     createTable();
