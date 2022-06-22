@@ -39,8 +39,8 @@ const BookOverview = ({info, id}) => {
       </View>
       <View style={styles.buttonRow}>
         <AddBook type={'Finished'} info={info} id={id} />
-        <AddBook type={'Started'} />
-        <AddBook type={'Want'} />
+        <AddBook type={'Started'} info={info} id={id} />
+        <AddBook type={'Want'} info={info} id={id} />
       </View>
       <View>
         <Text style={styles.descText}>{info.description}</Text>

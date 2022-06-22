@@ -11,11 +11,15 @@ import {
   Image,
 } from 'react-native';
 
+import {getData} from '../../database/db.js';
+
+// navigation.navigate('Shelf')
+
 const ShelfOverview = ({navigation, shelfType}) => {
   return (
     <TouchableHighlight
       style={styles.shelf}
-      onPress={() => navigation.navigate('Shelf')}>
+      onPress={() => getData()}>
       <View>
         <Text style={styles.baseText}>{shelfType}</Text>
       </View>
