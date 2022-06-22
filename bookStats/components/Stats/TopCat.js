@@ -11,26 +11,34 @@ import {
   Image,
 } from 'react-native';
 
-const TopCat = ({type}) => {
+const TopCat = ({type, stats}) => {
+  const breakdown = Object.entries(stats).sort((a, b) => b[1] - a[1]);
   return (
     <View style={styles.topCat}>
       <Text style={styles.baseText}>Top {type}</Text>
 
       <View style={styles.topView}>
         <View style={styles.topBreakdownLeft}>
-          <Text style={styles.statText}>1. Sci-Fi</Text>
-          <Text style={styles.statText}>2. Literature</Text>
-          <Text style={styles.statText}>3. Personal Development</Text>
-          <Text style={styles.statText}>4. Romance</Text>
-          <Text style={styles.statText}>5. Biography</Text>
+          {breakdown
+            .map((stat, index) => (
+              <Text style={styles.statText}>
+                {index + 1}. {stat[0]}
+              </Text>
+            ))
+            .filter((stat, index) => index < 5)}
         </View>
 
         <View style={styles.topBreakdownRight}>
+          {/* <Text style={styles.statText}>#</Text>
           <Text style={styles.statText}>#</Text>
           <Text style={styles.statText}>#</Text>
           <Text style={styles.statText}>#</Text>
-          <Text style={styles.statText}>#</Text>
-          <Text style={styles.statText}>#</Text>
+          <Text style={styles.statText}>#</Text> */}
+          {breakdown
+            .map((stat, index) => (
+              <Text style={styles.statText}>{stat[1]}</Text>
+            ))
+            .filter((stat, index) => index < 5)}
         </View>
       </View>
     </View>

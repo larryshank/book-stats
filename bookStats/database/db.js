@@ -1,8 +1,12 @@
 import SQLite from 'react-native-sqlite-storage';
 import {AppState} from 'react-native';
+import {useContext} from 'react';
 
 import db from './connection.js';
-SQLite.enablePromise(true);
+
+import {BookContext} from '../components/provider/BookProvider.js';
+
+// SQLite.enablePromise(true);
 // let databaseInstance = SQLite.SQLiteDatabase || undefined;
 
 // const open = async () => {
@@ -31,36 +35,46 @@ const createTable = () => {
       (ID INTEGER PRIMARY KEY AUTOINCREMENT,
         book_id TEXT, title Text, subtitle TEXT,
         author TEXT, published TEXT, description TEXT,
-        thumb TEXT, pageCount INT, shelf TEXT)
-        WITHOUT ROWID;`,
-      []
-    )
-      .then((tx, res) => console.log('CTres', res))
-      .catch(error => console.log('error CT', error));
+        thumb TEXT, pageCount INT, category TEXT, shelf TEXT);`,
+      [],
+      (tx, res) => {
+        console.log('CT:', res);
+      },
+    );
   });
 };
 
-const getData = () => {
-  console.log('get data func');
-  db.transaction(tx => {
-    tx.executeSql(
-      `SELECT ID, book_id, title, subtitle, author, published,
-        description, thumb, pageCount, shelf FROM data;`,
-      [],
-      (tx, res) => {console.log('is this it', res.rows.item(0));}
-    )
-      .then((tex, results) => console.log('Thing', tex))
-      .catch(error => console.log('error GD', error));
-  }).then(([tx]) => console.log('other', tx));
-};
+// const UseData = () => {
+//   const book = useContext(BookContext);
+//   console.log('get data func');
+//   db.transaction(tx => {
+//     tx.executeSql(
+//       `SELECT ID, book_id, title, subtitle, author, published,
+//         description, thumb, pageCount, shelf FROM data;`,
+//       [],
+//       (tx, res) => {
+//         console.log('is this it', res.rows.item(0));
+//         const {rows} = res;
+//         let books = [];
+//         for (let i = 0; i < rows.length; i++) {
+//           books.push({
+//             ...rows.item(i),
+//           });
+//         }
+//         console.log('books', books);
+//       },
+//     ).catch(error => console.log('error GD', error));
+//   });
+// };
 
 const insert = (id, info, shelf) => {
-  console.log('insert func');
-  console.log('info', info);
+  if (!info.subtitle) {
+    info.subtitle = '';
+  }
   db.transaction(tx => {
     tx.executeSql(
       `INSERT INTO data (book_id, title, subtitle, author, published,
-        description, thumb, pageCount, shelf) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);`,
+        description, thumb, pageCount, category, shelf) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);`,
       [
         id,
         info.title,
@@ -70,12 +84,12 @@ const insert = (id, info, shelf) => {
         info.description,
         info.imageLinks.smallThumbnail,
         info.pageCount,
+        info.categories[0],
         shelf,
-      ]
-    )
-      .then((tx, results) => console.log('inny', results))
-      .catch(error => console.log('error insert', error));
+      ],
+      (tx, res) => console.log('Insert', res),
+    );
   });
 };
 
-export {createTable, getData, insert};
+export {createTable, insert};

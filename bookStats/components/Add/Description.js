@@ -1,4 +1,5 @@
-import React, {useContext, useEffect} from 'react';
+import React from 'react';
+import {useContext} from 'react';
 import {
   Text,
   SafeAreaView,
@@ -12,12 +13,12 @@ import {
   Button,
 } from 'react-native';
 
-import {SearchContext} from '../provider/SearchProvider.js';
+import {BookContext} from '../provider/BookProvider.js';
 import BookOverview from '../BookOverview/BookOverview.js';
 
 const Description = ({navigation}) => {
-  const search = useContext(SearchContext);
-  console.log(search.selectedResult);
+  const search = useContext(BookContext);
+  console.log(search);
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -28,7 +29,7 @@ const Description = ({navigation}) => {
 
   const bookInfo = search.selectedResult.volumeInfo;
   const id = search.selectedResult.id;
-  return <BookOverview info={bookInfo} id={id} />;
+  return <BookOverview info={bookInfo} id={id} navigation={navigation} />;
 };
 
 const styles = StyleSheet.create({

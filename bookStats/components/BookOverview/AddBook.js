@@ -1,4 +1,5 @@
 import React from 'react';
+import {useContext} from 'react';
 
 import {
   Text,
@@ -14,18 +15,42 @@ import {
 } from 'react-native';
 
 import {insert} from '../../database/db.js';
+import db from '../../database/connection.js';
+import {BookContext} from '../provider/BookProvider.js';
 
-// const addBookAndFetch = (id, info, type) => {
-//   insert(id, info, type);
+const AddBook = ({type, info, id, navigation}) => {
+  // console.log(info.authors, info.authors[0]);
+  const myBooks = useContext(BookContext);
 
-// }
+  const addBookAndFetch = (id, info, type) => {
+    insert(id, info, type);
+    db.transaction(tx => {
+      tx.executeSql(
+        `SELECT ID, book_id, title, subtitle, author, published,
+        description, thumb, pageCount, category, shelf FROM data;`,
+        [],
+        (tx, res) => {
+          console.log('is this it', res.rows.item(0));
+          const {rows} = res;
+          let books = [];
+          for (let i = 0; i < rows.length; i++) {
+            books.push({
+              ...rows.item(i),
+            });
+          }
+          console.log('books', books);
+          myBooks.setUserBooks(books);
+        },
+      );
+    });
+    myBooks.setSearchResults([]);
+    navigation.navigate('Shelves');
+  };
 
-const AddBook = ({type, info, id}) => {
-  console.log(info.authors, info.authors[0]);
   return (
     <TouchableHighlight
       style={styles.button}
-      onPress={() => insert(id, info, type)}>
+      onPress={() => addBookAndFetch(id, info, type)}>
       <Text>{type}</Text>
     </TouchableHighlight>
   );

@@ -13,12 +13,12 @@ import {
 } from 'react-native';
 import axios from 'axios';
 
-import {SearchContext} from '../provider/SearchProvider.js';
+import {BookContext} from '../provider/BookProvider.js';
 
 const Search = ({navigation}) => {
   const [inputText, onChangeText] = useState(null);
-  const search = useContext(SearchContext);
-
+  const search = useContext(BookContext);
+  console.log('searcher', search);
   const performSearch = () => {
     let options = {
       method: 'get',
@@ -31,7 +31,22 @@ const Search = ({navigation}) => {
       },
     };
     return axios(options)
-      .then(searchResults => search.setSearchResults(searchResults.data.items))
+      .then(searchResults => {
+        console.log('Hey LOOK', searchResults.data.items);
+        search.setSearchResults(
+          searchResults.data.items.filter(
+            item =>
+              item.volumeInfo.title &&
+              item.volumeInfo.authors &&
+              item.volumeInfo.pageCount &&
+              item.volumeInfo.imageLinks &&
+              item.volumeInfo.imageLinks.smallThumbnail &&
+              item.volumeInfo.description &&
+              item.volumeInfo.publishedDate &&
+              item.volumeInfo.categories,
+          ),
+        );
+      })
       .catch(error => console.log(error));
   };
 
@@ -44,6 +59,7 @@ const Search = ({navigation}) => {
     return search.searchResults.map(result => {
       return (
         <TouchableHighlight
+          key={result.id}
           style={styles.clickResult}
           onPress={() => selectAndNav(result, 'Book')}>
           <View style={styles.resultRow}>

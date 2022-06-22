@@ -16,9 +16,9 @@ import ShelfOverview from './ShelfOverview.js';
 const Home = ({navigation}) => {
   return (
     <View style={styles.base}>
-      <ShelfOverview shelfType={'Completed Reads'} navigation={navigation} />
+      <ShelfOverview shelfType={'Finished'} navigation={navigation} />
       <ShelfOverview shelfType={'Started'} navigation={navigation} />
-      <ShelfOverview shelfType={'Want to Read'} navigation={navigation} />
+      <ShelfOverview shelfType={'Want'} navigation={navigation} />
     </View>
   );
 };

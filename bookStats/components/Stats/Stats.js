@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -10,12 +10,53 @@ import {
   TouchableHighlight,
   Image,
 } from 'react-native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faSquarePlus} from '@fortawesome/free-regular-svg-icons/faSquarePlus';
+
+import {BookContext} from '../provider/BookProvider.js';
 
 import TopCat from './TopCat.js';
 
 const Stats = () => {
+  const books = useContext(BookContext);
+  const stats = books.userBooks.filter(stat => stat.shelf === 'Finished');
+  // console.log('Stats', stats.filter(stat => stat.shelf === 'Finished'));
+
+  const getPageCount = () => {
+    let pages = 0;
+    stats.forEach(stat => {
+      pages += stat.pageCount;
+    });
+    return pages;
+  };
+
+  const getAuthors = () => {
+    const authors = {};
+    stats.forEach(stat => {
+      if (authors[stat.author] === undefined) {
+        authors[stat.author] = 1;
+      } else {
+        authors[stat.author]++;
+      }
+    });
+    return authors;
+  };
+
+  const getGenres = () => {
+    const genres = {};
+    stats.forEach(stat => {
+      if (genres[stat.category] === undefined) {
+        genres[stat.category] = 1;
+      } else {
+        genres[stat.category]++;
+      }
+    });
+    return genres;
+  };
+
+
+  const totalPages = getPageCount();
+  const myAuthors = getAuthors();
+  const myGenres = getGenres();
+
   return (
     <View style={styles.base}>
       <Text style={styles.baseText}>All Time</Text>
@@ -23,30 +64,34 @@ const Stats = () => {
       <View style={styles.overall}>
         <View style={styles.overallRow}>
           <View style={styles.overallCat}>
-            <Text style={styles.statText}>#</Text>
+            <Text style={styles.statText}>{stats.length}</Text>
             <Text style={styles.statText}>Books</Text>
           </View>
           <View style={styles.overallCat}>
-            <Text style={styles.statText}>#</Text>
+            <Text style={styles.statText}>{totalPages}</Text>
             <Text style={styles.statText}>Pages</Text>
           </View>
         </View>
 
         <View style={styles.overallRow}>
           <View style={styles.overallCat}>
-            <Text style={styles.statText}>#</Text>
+            <Text style={styles.statText}>
+              {Object.entries(myAuthors).length}
+            </Text>
             <Text style={styles.statText}>Authors</Text>
           </View>
           <View style={styles.overallCat}>
-            <Text style={styles.statText}>#</Text>
+            <Text style={styles.statText}>
+              {Object.entries(myGenres).length}
+            </Text>
             <Text style={styles.statText}>Genres</Text>
           </View>
         </View>
       </View>
 
-      <TopCat type={'Genres'} />
+      <TopCat type={'Genres'} stats={myGenres} />
 
-      <TopCat type={'Authors'} />
+      <TopCat type={'Authors'} stats={myAuthors} />
     </View>
   );
 };

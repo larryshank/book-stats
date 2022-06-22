@@ -12,9 +12,12 @@ import {
   Button,
 } from 'react-native';
 
-import AddBook from './AddBook.js';
-
-const BookOverview = ({info, id, navigation}) => {
+// import AddBook from './AddBook.js';
+import {BookContext} from '../provider/BookProvider';
+const BookDescription = () => {
+  const books = useContext(BookContext);
+  const book = books.selectedBook;
+  console.log(book);
   return (
     <ScrollView style={styles.base}>
       <View style={styles.resultRow}>
@@ -23,32 +26,22 @@ const BookOverview = ({info, id, navigation}) => {
             style={styles.imgStyle}
             source={{
               // eslint-disable-next-line prettier/prettier
-              uri: `https${info.imageLinks.smallThumbnail.slice(4)}`,
+              uri: `https${book.thumb.slice(4)}`,
             }}
             resizeMode={'cover'}
           />
         </View>
         <View style={styles.description}>
-          <Text style={styles.baseText}>{info.title}</Text>
-          <Text style={styles.baseText}>{info.authors[0]}</Text>
+          <Text style={styles.baseText}>{book.title}</Text>
+          <Text style={styles.baseText}>{book.author}</Text>
         </View>
       </View>
       <View style={styles.date}>
         <Text style={styles.baseText}>Date</Text>
         <Text style={styles.baseText}>Today</Text>
       </View>
-      <View style={styles.buttonRow}>
-        <AddBook
-          type={'Finished'}
-          info={info}
-          id={id}
-          navigation={navigation}
-        />
-        <AddBook type={'Started'} info={info} id={id} navigation={navigation} />
-        <AddBook type={'Want'} info={info} id={id} navigation={navigation} />
-      </View>
       <View>
-        <Text style={styles.descText}>{info.description}</Text>
+        <Text style={styles.descText}>{book.description}</Text>
       </View>
     </ScrollView>
   );
@@ -119,4 +112,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-export default BookOverview;
+export default BookDescription;
