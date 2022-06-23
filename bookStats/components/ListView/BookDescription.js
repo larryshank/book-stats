@@ -1,13 +1,30 @@
-import React, {useContext} from 'react';
-import {Text, ScrollView, StyleSheet, View, Image, Button} from 'react-native';
+import React, {useContext, useState, useEffect} from 'react';
+import {
+  Text,
+  ScrollView,
+  StyleSheet,
+  View,
+  Image,
+  Button,
+  TouchableHighlight,
+} from 'react-native';
 
 import db from '../../database/connection.js';
 import {BookContext} from '../provider/BookProvider';
 
 const BookDescription = ({navigation}) => {
   const books = useContext(BookContext);
+  const [otherOpt, setOtherOpt] = useState([]);
   const book = books.selectedBook;
-  console.log('find id', book);
+
+  useEffect(() => {
+    if (book.shelf === 'Started') {
+      setOtherOpt(['Finished', 'Want']);
+    } else if (book.shelf === 'Want') {
+      setOtherOpt(['Finished', 'Started']);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const deleteBook = id => {
     db.transaction(tx => {
@@ -32,6 +49,33 @@ const BookDescription = ({navigation}) => {
     });
     navigation.goBack();
   };
+
+  const updateShelf = (id, newShelf) => {
+    db.transaction(tx => {
+      tx.executeSql(
+        'UPDATE data SET shelf = $1 WHERE ID = $2;',
+        [newShelf, id],
+        (tx, res) => console.log(res, 'Updated'),
+      );
+      tx.executeSql(
+        `SELECT ID, book_id, title, subtitle, author, published,
+        description, thumb, pageCount, category, shelf FROM data;`,
+        [],
+        (tx, res) => {
+          const {rows} = res;
+          let bookResults = [];
+          for (let i = 0; i < rows.length; i++) {
+            bookResults.push({
+              ...rows.item(i),
+            });
+          }
+          books.setUserBooks(bookResults);
+        },
+      );
+    });
+    navigation.goBack();
+  };
+
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -71,6 +115,16 @@ const BookDescription = ({navigation}) => {
       <View>
         <Text style={styles.descText}>{book.description}</Text>
       </View>
+
+      {otherOpt.map(option => {
+        return (
+          <TouchableHighlight
+            style={styles.changeButton}
+            onPress={() => updateShelf(book.ID, option)}>
+            <Text style={styles.buttonText}>{option}</Text>
+          </TouchableHighlight>
+        );
+      })}
     </ScrollView>
   );
 };
@@ -152,6 +206,17 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     paddingTop: 25,
+  },
+  changeButton: {
+    width: 100,
+    height: 40,
+    backgroundColor: '#66b9ef',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontWeight: 'bold',
   },
 });
 export default BookDescription;
