@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, ImageBackground} from 'react-native';
 
 import {BookContext} from '../provider/BookProvider.js';
 
@@ -47,39 +47,42 @@ const Stats = () => {
 
   return (
     <View style={styles.base}>
-      <Text style={styles.baseText}>All Time</Text>
+      <ImageBackground
+        source={require('../../images/stat-back.png')}
+        resizeMode="cover"
+        style={styles.image}>
+        <Text style={styles.baseText}>All Time</Text>
 
-      <View style={styles.overall}>
-        <View style={styles.overallRow}>
-          <View style={styles.overallCat}>
-            <Text style={styles.statText}>{stats.length}</Text>
-            <Text style={styles.statText}>Books</Text>
+        <View style={styles.overall}>
+          <View style={styles.overallRow}>
+            <View style={styles.overallCat}>
+              <Text style={styles.statNum}>{stats.length}</Text>
+              <Text style={styles.statText}>Books</Text>
+            </View>
+            <View style={styles.overallCat}>
+              <Text style={styles.statNum}>{totalPages}</Text>
+              <Text style={styles.statText}>Pages</Text>
+            </View>
           </View>
-          <View style={styles.overallCat}>
-            <Text style={styles.statText}>{totalPages}</Text>
-            <Text style={styles.statText}>Pages</Text>
+
+          <View style={styles.overallRow}>
+            <View style={styles.overallCat}>
+              <Text style={styles.statNum}>
+                {Object.entries(myAuthors).length}
+              </Text>
+              <Text style={styles.statText}>Authors</Text>
+            </View>
+            <View style={styles.overallCat}>
+              <Text style={styles.statNum}>
+                {Object.entries(myGenres).length}
+              </Text>
+              <Text style={styles.statText}>Genres</Text>
+            </View>
           </View>
         </View>
-
-        <View style={styles.overallRow}>
-          <View style={styles.overallCat}>
-            <Text style={styles.statText}>
-              {Object.entries(myAuthors).length}
-            </Text>
-            <Text style={styles.statText}>Authors</Text>
-          </View>
-          <View style={styles.overallCat}>
-            <Text style={styles.statText}>
-              {Object.entries(myGenres).length}
-            </Text>
-            <Text style={styles.statText}>Genres</Text>
-          </View>
-        </View>
-      </View>
-
-      <TopCat type={'Genres'} stats={myGenres} />
-
-      <TopCat type={'Authors'} stats={myAuthors} />
+        <TopCat type={'Genres'} stats={myGenres} />
+        <TopCat type={'Authors'} stats={myAuthors} />
+      </ImageBackground>
     </View>
   );
 };
@@ -95,9 +98,17 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: 'center',
   },
+  image: {
+    flex: 1,
+  },
   statText: {
     color: '#fff',
     fontSize: 20,
+  },
+  statNum: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   statTextBottom: {
     color: '#fff',
@@ -105,8 +116,8 @@ const styles = StyleSheet.create({
   },
   overall: {
     flex: 5,
-    borderBottomColor: 'grey',
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    // borderBottomColor: 'grey',
+    // borderBottomWidth: StyleSheet.hairlineWidth,
   },
   overallRow: {
     flex: 1,

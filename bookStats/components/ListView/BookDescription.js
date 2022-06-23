@@ -1,10 +1,51 @@
 import React, {useContext} from 'react';
-import {Text, ScrollView, StyleSheet, View, Image} from 'react-native';
+import {Text, ScrollView, StyleSheet, View, Image, Button} from 'react-native';
 
+import db from '../../database/connection.js';
 import {BookContext} from '../provider/BookProvider';
-const BookDescription = () => {
+
+const BookDescription = ({navigation}) => {
   const books = useContext(BookContext);
   const book = books.selectedBook;
+  console.log('find id', book);
+
+  const deleteBook = id => {
+    db.transaction(tx => {
+      tx.executeSql('DELETE FROM data WHERE ID = $1;', [id], (tx, res) =>
+        console.log(res, 'deleted'),
+      );
+      tx.executeSql(
+        `SELECT ID, book_id, title, subtitle, author, published,
+        description, thumb, pageCount, category, shelf FROM data;`,
+        [],
+        (tx, res) => {
+          const {rows} = res;
+          let bookResults = [];
+          for (let i = 0; i < rows.length; i++) {
+            bookResults.push({
+              ...rows.item(i),
+            });
+          }
+          books.setUserBooks(bookResults);
+        },
+      );
+    });
+    navigation.goBack();
+  };
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button
+          onPress={() => deleteBook(book.ID)}
+          title="Delete Book"
+          color="#66b9ef"
+        />
+      ),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigation]);
+
   return (
     <ScrollView style={styles.base}>
       <View style={styles.resultRow}>
@@ -19,14 +60,14 @@ const BookDescription = () => {
           />
         </View>
         <View style={styles.description}>
-          <Text style={styles.baseText}>{book.title}</Text>
-          <Text style={styles.baseText}>{book.author}</Text>
+          <Text style={styles.title}>{book.title}</Text>
+          <Text style={styles.author}>{book.author}</Text>
         </View>
       </View>
-      <View style={styles.date}>
+      {/* <View style={styles.date}>
         <Text style={styles.baseText}>Date</Text>
         <Text style={styles.baseText}>Today</Text>
-      </View>
+      </View> */}
       <View>
         <Text style={styles.descText}>{book.description}</Text>
       </View>
@@ -43,10 +84,6 @@ const styles = StyleSheet.create({
   baseText: {
     color: '#fff',
     fontSize: 20,
-  },
-  descText: {
-    color: '#fff',
-    fontSize: 35,
   },
   button: {
     height: 40,
@@ -77,14 +114,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   resultRow: {
-    borderWidth: 1,
-    borderColor: 'green',
     flexDirection: 'row',
     height: 150,
   },
   imgCont: {
-    borderWidth: 1,
-    borderColor: 'red',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -96,7 +129,28 @@ const styles = StyleSheet.create({
   description: {
     flex: 2,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+  },
+  title: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 22,
+    paddingBottom: 5,
+    paddingLeft: 20,
+  },
+  author: {
+    color: '#cfcdcc',
+    fontWeight: 'bold',
+    fontSize: 18,
+    paddingBottom: 10,
+    paddingLeft: 20,
+  },
+  descText: {
+    color: '#cfcdcc',
+    fontSize: 18,
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingTop: 25,
   },
 });
 export default BookDescription;

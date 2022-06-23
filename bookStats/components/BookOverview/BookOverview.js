@@ -1,45 +1,59 @@
 import React from 'react';
-import {Text, ScrollView, StyleSheet, View, Image} from 'react-native';
+import {
+  Text,
+  ScrollView,
+  StyleSheet,
+  View,
+  Image,
+  SafeAreaView,
+} from 'react-native';
 
 import AddBook from './AddBook.js';
 
 const BookOverview = ({info, id, navigation}) => {
   return (
-    <ScrollView style={styles.base}>
-      <View style={styles.resultRow}>
-        <View style={styles.imgCont}>
-          <Image
-            style={styles.imgStyle}
-            source={{
-              // eslint-disable-next-line prettier/prettier
-              uri: `https${info.imageLinks.smallThumbnail.slice(4)}`,
-            }}
-            resizeMode={'cover'}
+    <SafeAreaView style={styles.base}>
+      <ScrollView>
+        <View style={styles.resultRow}>
+          <View style={styles.imgCont}>
+            <Image
+              style={styles.imgStyle}
+              source={{
+                // eslint-disable-next-line prettier/prettier
+                uri: `https${info.imageLinks.smallThumbnail.slice(4)}`,
+              }}
+              resizeMode={'cover'}
+            />
+          </View>
+          <View style={styles.description}>
+            <Text style={styles.title}>{info.title}</Text>
+            <Text style={styles.author}>{info.authors[0]}</Text>
+          </View>
+        </View>
+        {/* <View style={styles.date}>
+          <Text style={styles.baseText}>Date</Text>
+          <Text style={styles.baseText}>Today</Text>
+        </View> */}
+        <View style={styles.buttonRow}>
+          <AddBook
+            type={'Finished'}
+            info={info}
+            id={id}
+            navigation={navigation}
           />
+          <AddBook
+            type={'Started'}
+            info={info}
+            id={id}
+            navigation={navigation}
+          />
+          <AddBook type={'Want'} info={info} id={id} navigation={navigation} />
         </View>
-        <View style={styles.description}>
-          <Text style={styles.baseText}>{info.title}</Text>
-          <Text style={styles.baseText}>{info.authors[0]}</Text>
+        <View>
+          <Text style={styles.descText}>{info.description}</Text>
         </View>
-      </View>
-      <View style={styles.date}>
-        <Text style={styles.baseText}>Date</Text>
-        <Text style={styles.baseText}>Today</Text>
-      </View>
-      <View style={styles.buttonRow}>
-        <AddBook
-          type={'Finished'}
-          info={info}
-          id={id}
-          navigation={navigation}
-        />
-        <AddBook type={'Started'} info={info} id={id} navigation={navigation} />
-        <AddBook type={'Want'} info={info} id={id} navigation={navigation} />
-      </View>
-      <View>
-        <Text style={styles.descText}>{info.description}</Text>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -52,10 +66,6 @@ const styles = StyleSheet.create({
   baseText: {
     color: '#fff',
     fontSize: 20,
-  },
-  descText: {
-    color: '#fff',
-    fontSize: 35,
   },
   button: {
     height: 40,
@@ -73,6 +83,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
+    paddingTop: 10,
   },
   input: {
     height: 40,
@@ -86,14 +97,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   resultRow: {
-    borderWidth: 1,
-    borderColor: 'green',
     flexDirection: 'row',
     height: 150,
   },
   imgCont: {
-    borderWidth: 1,
-    borderColor: 'red',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -105,7 +112,26 @@ const styles = StyleSheet.create({
   description: {
     flex: 2,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+  },
+  title: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 22,
+    paddingBottom: 5,
+  },
+  author: {
+    color: '#cfcdcc',
+    fontWeight: 'bold',
+    fontSize: 18,
+    paddingBottom: 10,
+  },
+  descText: {
+    color: '#cfcdcc',
+    fontSize: 18,
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingTop: 25,
   },
 });
 export default BookOverview;

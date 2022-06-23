@@ -16,7 +16,7 @@ const BookItem = ({info}) => {
   const navigation = useNavigation();
   const {title, author, description, thumb} = info;
   const pic = `https${thumb.slice(4)}`;
-  const desc = `${description.slice(0, 100)}...`;
+  const desc = `${description.slice(0, 120)}...`;
 
   const setSelectionAndGo = place => {
     selection.setBook(info);
@@ -40,9 +40,9 @@ const BookItem = ({info}) => {
           </View>
 
           <View style={styles.desc}>
-            <Text style={styles.baseText}>Title: {title}</Text>
-            <Text style={styles.baseText}>Author: {author}</Text>
-            <Text style={styles.baseText}>Description: {desc}</Text>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.author}>{author}</Text>
+            <Text style={styles.baseText}>{desc}</Text>
           </View>
         </View>
       </TouchableHighlight>
@@ -60,8 +60,20 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   baseText: {
-    color: '#fff',
+    color: '#cfcdcc',
     fontSize: 20,
+    paddingBottom: 10,
+  },
+  title: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 22,
+    paddingBottom: 5,
+  },
+  author: {
+    color: '#cfcdcc',
+    fontWeight: 'bold',
+    fontSize: 18,
     paddingBottom: 10,
   },
   row: {

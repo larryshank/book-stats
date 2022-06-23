@@ -35,16 +35,19 @@ const TopCat = ({type, stats}) => {
 const styles = StyleSheet.create({
   topCat: {
     flex: 4,
-    borderBottomColor: 'grey',
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    // borderBottomColor: 'grey',
+    // borderBottomWidth: StyleSheet.hairlineWidth,
   },
   baseText: {
     color: '#fff',
+    fontWeight: 'bold',
+    paddingLeft: 5,
     fontSize: 30,
   },
   statText: {
     color: '#fff',
     fontSize: 20,
+    paddingBottom: 5,
   },
   topView: {
     flex: 1,

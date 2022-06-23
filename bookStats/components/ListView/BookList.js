@@ -39,6 +39,8 @@ const styles = StyleSheet.create({
   baseText: {
     color: '#fff',
     fontSize: 30,
+    fontWeight: 'bold',
+    paddingLeft: 5,
   },
 });
 

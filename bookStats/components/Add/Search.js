@@ -51,7 +51,6 @@ const Search = ({navigation}) => {
 
     return axios(options)
       .then(searchResults => {
-        console.log('Hey LOOK', searchResults.data.items);
         search.setSearchResults(
           searchResults.data.items.filter(
             item =>
@@ -95,10 +94,8 @@ const Search = ({navigation}) => {
               )}
             </View>
             <View style={styles.description}>
-              <Text style={styles.baseText}>{result.volumeInfo.title}</Text>
-              <Text style={styles.baseText}>
-                {result.volumeInfo.authors[0]}
-              </Text>
+              <Text style={styles.title}>{result.volumeInfo.title}</Text>
+              <Text style={styles.author}>{result.volumeInfo.authors[0]}</Text>
             </View>
           </View>
         </TouchableHighlight>
@@ -117,7 +114,7 @@ const Search = ({navigation}) => {
         onSubmitEditing={performSearch}
       />
       <TouchableHighlight style={styles.button} onPress={performSearch}>
-        <Text>Search!</Text>
+        <Text style={styles.buttonText}>Search!</Text>
       </TouchableHighlight>
       <SafeAreaView style={styles.base}>
         <ScrollView style={styles.resultView}>{searchResults()}</ScrollView>
@@ -146,6 +143,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  buttonText: {
+    fontWeight: 'bold',
+  },
   input: {
     height: 40,
     margin: 12,
@@ -158,14 +158,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   resultRow: {
-    borderWidth: 1,
-    borderColor: 'green',
     flexDirection: 'row',
     height: 150,
   },
   imgCont: {
-    borderWidth: 1,
-    borderColor: 'red',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -174,10 +170,22 @@ const styles = StyleSheet.create({
     width: '60%',
     height: '80%',
   },
+  title: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 22,
+    paddingBottom: 5,
+  },
+  author: {
+    color: '#cfcdcc',
+    fontWeight: 'bold',
+    fontSize: 18,
+    paddingBottom: 10,
+  },
   description: {
     flex: 2,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
 });
 

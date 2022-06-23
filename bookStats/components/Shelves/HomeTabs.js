@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, TouchableHighlight} from 'react-native';
+import {StyleSheet, View, TouchableHighlight, Text} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -13,6 +13,7 @@ const Tab = createMaterialTopTabNavigator();
 const HomeTabs = ({navigation}) => {
   return (
     <>
+      <Text style={styles.title}>Book Stats</Text>
       <Tab.Navigator
         screenOptions={{
           tabBarIndicatorStyle: {
@@ -22,6 +23,10 @@ const HomeTabs = ({navigation}) => {
           },
           tabBarIndicatorContainerStyle: {
             backgroundColor: '#1b1c20',
+          },
+          tabBarContentContainerStyle: {
+            height: 40,
+            alignItems: 'center',
           },
           swipeEnabled: false,
           tabBarActiveTintColor: '#fff',
@@ -56,7 +61,9 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     color: '#fff',
-    fontSize: 30,
+    fontSize: 20,
+    backgroundColor: '#2c3440',
+    fontWeight: 'bold',
   },
   statusBar: {
     backgroundcolor: 'black',
@@ -100,7 +107,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   addIcon: {
-    color: '#539565',
+    color: '#66b9ef',
   },
 });
 

@@ -40,7 +40,9 @@ const ShelfOverview = ({navigation, shelfType}) => {
             <TouchableWithoutFeedback
               key={index}
               style={styles.imgWrap}
-              onPress={() => navigation.navigate('Book Shelf', {shelf: shelfType})}>
+              onPress={() =>
+                navigation.navigate('Book Shelf', {shelf: shelfType})
+              }>
               <Image
                 style={styles.imgStyle}
                 source={{
@@ -65,8 +67,13 @@ const styles = StyleSheet.create({
   },
   baseText: {
     color: '#fff',
-    fontSize: 30,
+    fontWeight: 'bold',
+    fontSize: 27,
     paddingBottom: 5,
+    paddingLeft: 5,
+  },
+  scroll: {
+    paddingLeft: 5,
   },
   imgWrap: {
     flex: 1,

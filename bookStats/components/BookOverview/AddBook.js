@@ -17,7 +17,6 @@ const AddBook = ({type, info, id, navigation}) => {
         description, thumb, pageCount, category, shelf FROM data;`,
         [],
         (tx, res) => {
-          console.log('is this it', res.rows.item(0));
           const {rows} = res;
           let books = [];
           for (let i = 0; i < rows.length; i++) {
@@ -25,7 +24,6 @@ const AddBook = ({type, info, id, navigation}) => {
               ...rows.item(i),
             });
           }
-          console.log('books', books);
           myBooks.setUserBooks(books);
         },
       );
@@ -38,19 +36,22 @@ const AddBook = ({type, info, id, navigation}) => {
     <TouchableHighlight
       style={styles.button}
       onPress={() => addBookAndFetch(id, info, type)}>
-      <Text>{type}</Text>
+      <Text style={styles.buttonText}>{type}</Text>
     </TouchableHighlight>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    flex: 1,
     width: 100,
     height: 40,
-    backgroundColor: 'blue',
-    color: '#fff',
+    backgroundColor: '#66b9ef',
     borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontWeight: 'bold',
   },
 });
 

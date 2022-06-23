@@ -1,6 +1,6 @@
 import React from 'react';
 import {useEffect, useContext} from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {SafeAreaView, StyleSheet, StatusBar, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -48,6 +48,7 @@ const BaseApp = () => {
 
   return (
     <SafeAreaView style={styles.base}>
+      <StatusBar barStyle="light-content" />
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
