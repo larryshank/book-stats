@@ -12,7 +12,7 @@ const TopCat = ({type, stats}) => {
           {breakdown
             .map((stat, index) => (
               <Text key={index + 1} style={styles.statText}>
-                {index + 1}. {stat[0]}
+                {index + 1}. {stat[0].slice(0, 23)}
               </Text>
             ))
             .filter((stat, index) => index < 5)}
@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     paddingLeft: 5,
+    paddingBottom: 5,
     fontSize: 30,
   },
   statText: {

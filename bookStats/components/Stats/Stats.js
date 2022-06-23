@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   overall: {
-    flex: 5,
+    flex: 4,
     // borderBottomColor: 'grey',
     // borderBottomWidth: StyleSheet.hairlineWidth,
   },

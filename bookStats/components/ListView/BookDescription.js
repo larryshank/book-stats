@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     paddingBottom: 5,
     paddingLeft: 20,
+    paddingRight: 5,
   },
   author: {
     color: '#cfcdcc',

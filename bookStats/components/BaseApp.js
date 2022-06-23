@@ -58,7 +58,7 @@ const BaseApp = () => {
           }}>
           <Stack.Group>
             <Stack.Screen
-              name="Shelves"
+              name="Home"
               component={HomeTabs}
               options={{headerShown: false}}
             />
