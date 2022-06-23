@@ -1,15 +1,5 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TouchableHighlight,
-  Image,
-} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import ShelfOverview from './ShelfOverview.js';
 
@@ -44,7 +34,6 @@ const styles = StyleSheet.create({
   nav: {
     flex: 1,
     flexDirection: 'row',
-    // backgroundColor: 'blue',
     justifyContent: 'space-around',
   },
   navButton: {

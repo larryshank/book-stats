@@ -1,23 +1,10 @@
-import React, {useContext, useEffect} from 'react';
-import {
-  Text,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  TouchableHighlight,
-  Image,
-  Button,
-} from 'react-native';
+import React, {useContext} from 'react';
+import {Text, ScrollView, StyleSheet, View, Image} from 'react-native';
 
-// import AddBook from './AddBook.js';
 import {BookContext} from '../provider/BookProvider';
 const BookDescription = () => {
   const books = useContext(BookContext);
   const book = books.selectedBook;
-  console.log(book);
   return (
     <ScrollView style={styles.base}>
       <View style={styles.resultRow}>

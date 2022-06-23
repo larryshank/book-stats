@@ -1,27 +1,24 @@
 import React, {useContext} from 'react';
 import {
   SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   TouchableHighlight,
   Image,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import {BookContext} from '../provider/BookProvider';
 
-const BookItem = ({navigation, info}) => {
-  console.log('HAHDHADF', navigation);
+const BookItem = ({info}) => {
   const selection = useContext(BookContext);
+  const navigation = useNavigation();
   const {title, author, description, thumb} = info;
-  // console.log('stuff', title, author, thumb, desc);
   const pic = `https${thumb.slice(4)}`;
   const desc = `${description.slice(0, 100)}...`;
 
-  const setSelectionAndGo = (place) => {
+  const setSelectionAndGo = place => {
     selection.setBook(info);
     navigation.navigate(place);
   };
@@ -41,6 +38,7 @@ const BookItem = ({navigation, info}) => {
               resizeMode={'contain'}
             />
           </View>
+
           <View style={styles.desc}>
             <Text style={styles.baseText}>Title: {title}</Text>
             <Text style={styles.baseText}>Author: {author}</Text>

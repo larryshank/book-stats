@@ -1,31 +1,4 @@
-import SQLite from 'react-native-sqlite-storage';
-import {AppState} from 'react-native';
-import {useContext} from 'react';
-
 import db from './connection.js';
-
-import {BookContext} from '../components/provider/BookProvider.js';
-
-// SQLite.enablePromise(true);
-// let databaseInstance = SQLite.SQLiteDatabase || undefined;
-
-// const open = async () => {
-//   SQLite.DEBUG(true);
-//   SQLite.enablePromise(true);
-
-//   if (databaseInstance !== undefined) {
-//     console.log('Database already open returning instance');
-//     return databaseInstance;
-//   }
-
-//   const db = await SQLite.openDatabase({
-//     name: 'books',
-//     location: 'default',
-//   }, () => {}, (error) => console.log(error))
-
-//   databaseInstance = db;
-//   return db;
-// };
 
 const createTable = () => {
   console.log('DB', db);
@@ -43,29 +16,6 @@ const createTable = () => {
     );
   });
 };
-
-// const UseData = () => {
-//   const book = useContext(BookContext);
-//   console.log('get data func');
-//   db.transaction(tx => {
-//     tx.executeSql(
-//       `SELECT ID, book_id, title, subtitle, author, published,
-//         description, thumb, pageCount, shelf FROM data;`,
-//       [],
-//       (tx, res) => {
-//         console.log('is this it', res.rows.item(0));
-//         const {rows} = res;
-//         let books = [];
-//         for (let i = 0; i < rows.length; i++) {
-//           books.push({
-//             ...rows.item(i),
-//           });
-//         }
-//         console.log('books', books);
-//       },
-//     ).catch(error => console.log('error GD', error));
-//   });
-// };
 
 const insert = (id, info, shelf) => {
   if (!info.subtitle) {

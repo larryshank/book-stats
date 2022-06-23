@@ -1,28 +1,15 @@
-import React from 'react';
-import {useContext} from 'react';
-
-import {
-  Text,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  TouchableHighlight,
-  Image,
-  Button,
-} from 'react-native';
+import React, {useContext} from 'react';
+import {Text, StyleSheet, TouchableHighlight} from 'react-native';
 
 import {insert} from '../../database/db.js';
 import db from '../../database/connection.js';
+
 import {BookContext} from '../provider/BookProvider.js';
 
 const AddBook = ({type, info, id, navigation}) => {
-  // console.log(info.authors, info.authors[0]);
   const myBooks = useContext(BookContext);
 
-  const addBookAndFetch = (id, info, type) => {
+  const addBookAndFetch = () => {
     insert(id, info, type);
     db.transaction(tx => {
       tx.executeSql(

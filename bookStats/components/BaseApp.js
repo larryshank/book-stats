@@ -1,8 +1,7 @@
 import React from 'react';
 import {useEffect, useContext} from 'react';
-import {SafeAreaView, StyleSheet, Button} from 'react-native';
-// import SQLite from 'react-native-sqlite-storage';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {SafeAreaView, StyleSheet} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {createTable} from '../database/db.js';
@@ -19,17 +18,15 @@ const Stack = createNativeStackNavigator();
 
 const BaseApp = () => {
   const myBooks = useContext(BookContext);
-  console.log(myBooks.userBooks);
+
   useEffect(() => {
     const getData = () => {
-      console.log('get data func');
       db.transaction(tx => {
         tx.executeSql(
           `SELECT ID, book_id, title, subtitle, author, published,
             description, thumb, pageCount, category, shelf FROM data;`,
           [],
           (tx, res) => {
-            console.log('is this it', res.rows.item(0));
             const {rows} = res;
             let books = [];
             for (let i = 0; i < rows.length; i++) {
@@ -38,10 +35,8 @@ const BaseApp = () => {
               });
             }
             if (books.length > 0) {
-              console.log(myBooks.userBooks);
               myBooks.setUserBooks(books);
             }
-            console.log('books', myBooks.userBooks);
           },
         );
       });
@@ -54,14 +49,24 @@ const BaseApp = () => {
   return (
     <SafeAreaView style={styles.base}>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: styles.header,
+            headerTitleStyle: styles.headerTitle,
+            headerTintColor: '#66b9ef',
+          }}>
           <Stack.Group>
             <Stack.Screen
               name="Shelves"
               component={HomeTabs}
               options={{headerShown: false}}
             />
-            <Stack.Screen name="Shelf" component={BookList} />
+            <Stack.Screen
+              name="Book Shelf"
+              component={BookList}
+              // eslint-disable-next-line react/jsx-no-duplicate-props
+              // options={({route}) => ({title: route.params.shelf})}
+            />
             <Stack.Screen name="Book Description" component={BookDescription} />
           </Stack.Group>
 
@@ -79,6 +84,13 @@ const styles = StyleSheet.create({
   base: {
     backgroundColor: '#2c3440',
     flex: 1,
+  },
+  header: {
+    backgroundColor: '#2c3440',
+    color: '#fff',
+  },
+  headerTitle: {
+    color: '#fff',
   },
   baseText: {
     color: '#fff',

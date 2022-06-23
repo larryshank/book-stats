@@ -1,16 +1,5 @@
-import React, {useContext, useEffect} from 'react';
-import {
-  Text,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  TouchableHighlight,
-  Image,
-  Button,
-} from 'react-native';
+import React from 'react';
+import {Text, ScrollView, StyleSheet, View, Image} from 'react-native';
 
 import AddBook from './AddBook.js';
 

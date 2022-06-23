@@ -1,15 +1,5 @@
 import React, {useContext} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TouchableHighlight,
-  Image,
-} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
 import {BookContext} from '../provider/BookProvider.js';
 
@@ -18,7 +8,6 @@ import TopCat from './TopCat.js';
 const Stats = () => {
   const books = useContext(BookContext);
   const stats = books.userBooks.filter(stat => stat.shelf === 'Finished');
-  // console.log('Stats', stats.filter(stat => stat.shelf === 'Finished'));
 
   const getPageCount = () => {
     let pages = 0;
@@ -51,7 +40,6 @@ const Stats = () => {
     });
     return genres;
   };
-
 
   const totalPages = getPageCount();
   const myAuthors = getAuthors();
@@ -140,7 +128,6 @@ const styles = StyleSheet.create({
   },
   add: {
     flex: 0.8,
-    // backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'center',
   },

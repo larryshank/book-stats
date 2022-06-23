@@ -1,15 +1,5 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TouchableHighlight,
-  Image,
-} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
 const TopCat = ({type, stats}) => {
   const breakdown = Object.entries(stats).sort((a, b) => b[1] - a[1]);
@@ -21,7 +11,7 @@ const TopCat = ({type, stats}) => {
         <View style={styles.topBreakdownLeft}>
           {breakdown
             .map((stat, index) => (
-              <Text style={styles.statText}>
+              <Text key={index + 1} style={styles.statText}>
                 {index + 1}. {stat[0]}
               </Text>
             ))
@@ -29,14 +19,11 @@ const TopCat = ({type, stats}) => {
         </View>
 
         <View style={styles.topBreakdownRight}>
-          {/* <Text style={styles.statText}>#</Text>
-          <Text style={styles.statText}>#</Text>
-          <Text style={styles.statText}>#</Text>
-          <Text style={styles.statText}>#</Text>
-          <Text style={styles.statText}>#</Text> */}
           {breakdown
             .map((stat, index) => (
-              <Text style={styles.statText}>{stat[1]}</Text>
+              <Text key={index} style={styles.statText}>
+                {stat[1]}
+              </Text>
             ))
             .filter((stat, index) => index < 5)}
         </View>

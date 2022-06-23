@@ -1,7 +1,5 @@
 import React from 'react';
 import {StyleSheet, View, TouchableHighlight} from 'react-native';
-// import {NavigationContainer} from '@react-navigation/native';
-// import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -41,12 +39,12 @@ const HomeTabs = ({navigation}) => {
       <View style={styles.add}>
         <TouchableHighlight
           activeOpacity={0.6}
-          underlaycolor="#fff"
+          underlayColor="#fff"
           onPress={() => navigation.navigate('Add Book')}>
           <FontAwesomeIcon
             icon={faSquarePlus}
             style={styles.addIcon}
-            size={40}
+            size={45}
           />
         </TouchableHighlight>
       </View>
@@ -96,7 +94,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   add: {
-    flex: 0.5,
+    flex: 0.4,
     backgroundColor: '#2c3440',
     alignItems: 'center',
     justifyContent: 'center',

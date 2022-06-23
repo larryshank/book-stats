@@ -1,7 +1,6 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 
 const BookContext = React.createContext();
-// import db from '../../database/connection.js';
 
 const BookProvider = props => {
   const [searchResults, setSearchResults] = useState([]);

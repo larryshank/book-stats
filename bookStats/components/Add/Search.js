@@ -18,7 +18,25 @@ import {BookContext} from '../provider/BookProvider.js';
 const Search = ({navigation}) => {
   const [inputText, onChangeText] = useState(null);
   const search = useContext(BookContext);
-  console.log('searcher', search);
+
+  const goBackAndCancel = () => {
+    search.setSearchResults([]);
+    navigation.goBack();
+  };
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <Button
+          onPress={() => goBackAndCancel()}
+          title="Cancel"
+          color="#66b9ef"
+        />
+      ),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const performSearch = () => {
     let options = {
       method: 'get',
@@ -30,6 +48,7 @@ const Search = ({navigation}) => {
         printType: 'books',
       },
     };
+
     return axios(options)
       .then(searchResults => {
         console.log('Hey LOOK', searchResults.data.items);
@@ -97,7 +116,9 @@ const Search = ({navigation}) => {
         keyboardType="default"
         onSubmitEditing={performSearch}
       />
-      <Button title="Search!" style={styles.button} onPress={performSearch} />
+      <TouchableHighlight style={styles.button} onPress={performSearch}>
+        <Text>Search!</Text>
+      </TouchableHighlight>
       <SafeAreaView style={styles.base}>
         <ScrollView style={styles.resultView}>{searchResults()}</ScrollView>
       </SafeAreaView>
@@ -117,8 +138,13 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 40,
+    width: 200,
     borderWidth: 1,
     backgroundColor: '#66b9ef',
+    alignSelf: 'center',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   input: {
     height: 40,

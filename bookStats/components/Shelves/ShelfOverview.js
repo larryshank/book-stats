@@ -1,19 +1,15 @@
 import React from 'react';
 import {useContext} from 'react';
 import {
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   TouchableHighlight,
   TouchableWithoutFeedback,
   Image,
 } from 'react-native';
 
-// navigation.navigate('Shelf')
 import {BookContext} from '../provider/BookProvider';
 
 const ShelfOverview = ({navigation, shelfType}) => {
@@ -33,17 +29,18 @@ const ShelfOverview = ({navigation, shelfType}) => {
   return (
     <TouchableHighlight
       style={styles.shelf}
-      onPress={() => navigation.navigate('Shelf', {shelf: shelfType})}>
+      onPress={() => navigation.navigate('Book Shelf', {shelf: shelfType})}>
       <View>
         <View>
           <Text style={styles.baseText}>{header}</Text>
         </View>
 
         <ScrollView style={styles.scroll} horizontal={true}>
-          {thumbs.map(thumb => (
+          {thumbs.map((thumb, index) => (
             <TouchableWithoutFeedback
+              key={index}
               style={styles.imgWrap}
-              onPress={() => navigation.navigate('Shelf', {shelf: shelfType})}>
+              onPress={() => navigation.navigate('Book Shelf', {shelf: shelfType})}>
               <Image
                 style={styles.imgStyle}
                 source={{
@@ -69,19 +66,14 @@ const styles = StyleSheet.create({
   baseText: {
     color: '#fff',
     fontSize: 30,
-  },
-  scroll: {
-    // flex: 1,
-
+    paddingBottom: 5,
   },
   imgWrap: {
-    // flex: 1,
-
+    flex: 1,
   },
   imgStyle: {
-    // flex: 1,
-    width: 110,
-    height: 175,
+    width: 105,
+    height: 165,
   },
 });
 

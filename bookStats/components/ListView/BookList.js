@@ -1,15 +1,5 @@
 import React, {useContext} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TouchableHighlight,
-  Image,
-} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 
 import {BookContext} from '../provider/BookProvider';
 import BookItem from './BookItem.js';
@@ -25,14 +15,15 @@ const BookList = ({route}) => {
   } else {
     header = 'Want to Read';
   }
+
   const list = books.userBooks.filter(book => book.shelf === shelf);
-  console.log(list);
+
   return (
     <View style={styles.base}>
       <Text style={styles.baseText}>{header}</Text>
       <ScrollView>
-        {list.map(book => (
-          <BookItem info={book} />
+        {list.map((book, index) => (
+          <BookItem key={index} info={book} />
         ))}
       </ScrollView>
     </View>
